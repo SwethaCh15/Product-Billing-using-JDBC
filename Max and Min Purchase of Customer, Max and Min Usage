@@ -1,0 +1,57 @@
+
+3.MAX AND MIN PURCHASES OF CUSTOMER , MAX AND MIN USE OF APPLICATION
+
+package assignment;
+import java.util.*;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.sql.*;
+public class exam3 
+{
+	public static void main(String[] args) 
+	{
+		Scanner sc=new Scanner(System.in);
+		Connection con;
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			FileInputStream fi=new FileInputStream("C:\\Users\\KIRAN SOLANKI\\Desktop\\Advance_Java\\Jdbc_First\\src\\assignment\\easy.properties");
+			Properties p1=new Properties();
+			p1.load(fi);
+			con=DriverManager.getConnection("jdbc:mysql://localhost:3306/jdbc_5", p1);
+			Statement st=con.createStatement();
+			ResultSet rs=st.executeQuery("select max(purchase) from customer");
+			int max_p=0;
+			if(rs.next())
+			{
+				max_p=rs.getInt(1);
+			}
+			System.out.println("max purchase of customer is "+max_p);
+			rs=st.executeQuery("select min(purchase) from customer where purchase!=0");
+			int min_p=0;
+			if(rs.next())
+			{
+				min_p=rs.getInt(1);
+			}
+			System.out.println("min purchase of customer is "+min_p);
+			rs=st.executeQuery("select max(used) from app");
+			int max_a=0;
+			if(rs.next())
+			{
+				max_a=rs.getInt(1);
+			}
+			System.out.println("max usage of app is "+max_a);
+			rs=st.executeQuery("select min(used) from app where used!=0");
+			int min_a=0;
+			if(rs.next())
+			{
+				min_a=rs.getInt(1);
+			}
+			System.out.println("min usage of app is "+min_a);
+			con.close();
+		} catch (ClassNotFoundException | IOException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+}
